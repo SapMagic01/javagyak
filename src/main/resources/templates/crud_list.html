@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>CRUD Adminisztráció</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="bg-white p-8 rounded-xl shadow-lg">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-3xl font-bold text-gray-800">Húzások Kezelése (CRUD)</h2>
+            <a href="/crud/add" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition flex items-center gap-2">
+                + Új Húzás Hozzáadása
+            </a>
+        </div>
+
+        <div th:if="${param.success}" class="bg-green-100 text-green-700 p-3 rounded mb-4">✅ Sikeres mentés!</div>
+        <div th:if="${param.deleted}" class="bg-red-100 text-red-700 p-3 rounded mb-4">🗑️ Sikeres törlés!</div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-gray-800 text-white uppercase text-sm">
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Év</th>
+                    <th class="p-3">Hét</th>
+                    <th class="p-3 text-center">Műveletek</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm">
+                <tr th:each="huzas : ${huzasok}" class="border-b hover:bg-gray-50">
+                    <td class="p-3 font-mono text-gray-500" th:text="${huzas.id}">1</td>
+                    <td class="p-3 font-bold" th:text="${huzas.ev}">2024</td>
+                    <td class="p-3" th:text="${huzas.het}">42</td>
+                    <td class="p-3 text-center space-x-2">
+                        <a th:href="@{/crud/edit/{id}(id=${huzas.id})}"
+                           class="text-indigo-600 hover:text-indigo-900 font-bold underline">Edit</a>
+
+                        <a th:href="@{/crud/delete/{id}(id=${huzas.id})}"
+                           onclick="return confirm('Biztosan törölni akarod?')"
+                           class="text-red-600 hover:text-red-900 font-bold underline ml-4">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
