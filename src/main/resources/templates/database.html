@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Adatbázis</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="bg-white p-8 rounded-xl shadow-md">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-3xl font-bold text-gray-800">Lottó Eredmények</h2>
+            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    Adatforrás: MySQL
+                </span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                <tr class="bg-gray-100 text-gray-600 uppercase text-sm">
+                    <th class="p-3 border-b">Év / Hét</th>
+                    <th class="p-3 border-b">Kihúzott Számok</th>
+                    <th class="p-3 border-b text-right">Főnyeremény (Ft)</th>
+                </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm">
+                <tr th:each="huzas : ${huzasok}" class="border-b hover:bg-gray-50 transition">
+
+                    <td class="p-3 font-bold">
+                        <span th:text="${huzas.ev}">2024</span> / <span th:text="${huzas.het}">42</span>. hét
+                    </td>
+
+                    <td class="p-3">
+                        <div class="flex gap-2">
+                                    <span th:each="szam : ${huzas.huzottSzamok}"
+                                          th:text="${szam.szam}"
+                                          class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-mono font-bold text-xs">
+                                        42
+                                    </span>
+                        </div>
+                    </td>
+
+                    <td class="p-3 text-right font-mono text-green-600 font-bold">
+                        <div th:each="nyer : ${huzas.nyeremenyek}"
+                             th:if="${nyer.talalat == 5 OR nyer.talalat == 6}"
+                             th:text="${nyer.ertek + ' Ft'}">
+                            1.500.000 Ft
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${#lists.isEmpty(huzasok)}" class="text-center text-gray-500 py-10 italic">
+            Nincs megjeleníthető adat az adatbázisban.
+        </div>
+    </div>
+</div>
+</body>
+</html>

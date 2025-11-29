@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Statisztika Diagram</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg mt-6">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">Nyeremény Statisztika</h2>
+        <p class="text-gray-600 mb-8">Az alábbi diagram az utolsó 10 húzás során kifizetett összes nyereményt mutatja.</p>
+
+        <div class="relative h-96 w-full">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            fetch('/api/diagram-data')
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(item => item.label).reverse();
+                    const values = data.map(item => item.value).reverse();
+
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Összes kifizetett nyeremény (Ft)',
+                                data: values,
+                                backgroundColor: 'rgba(79, 70, 229, 0.6)',
+                                borderColor: 'rgba(79, 70, 229, 1)',
+                                borderWidth: 1,
+                                borderRadius: 5
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value.toLocaleString('hu-HU') + ' Ft';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+        </script>
+    </div>
+</div>
+</body>
+</html>
