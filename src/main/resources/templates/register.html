@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content})}">
+<head>
+    <title>Regisztráció</title>
+</head>
+<body>
+<div th:fragment="content">
+    <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg mt-10 border border-gray-100">
+        <h2 class="text-3xl font-bold text-center mb-6 text-indigo-700">Fiók Létrehozása</h2>
+
+        <p class="text-center text-gray-500 mb-6">Adja meg adatait a regisztrációhoz</p>
+
+        <form th:action="@{/register}" th:object="${user}" method="post">
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Felhasználónév</label>
+                <input type="text" th:field="*{username}" required placeholder="Válasszon felhasználónevet"
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Jelszó</label>
+                <input type="password" th:field="*{password}" required placeholder="Minimum 4 karakter"
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition">
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition transform hover:scale-105">
+                Regisztráció
+            </button>
+        </form>
+
+        <div class="mt-6 text-center border-t pt-4">
+            <p class="text-sm text-gray-600">
+                Már van fiókja? <a th:href="@{/login}" class="text-indigo-600 hover:underline font-bold">Jelentkezzen be itt!</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
