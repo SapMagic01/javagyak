@@ -13,18 +13,18 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sender_name") // Mivel az adatbázisban snake_case van
+    @Column(name = "sender_name")
     private String senderName;
 
     private String email;
 
+    // Fontos: a columnDefinition TEXT kell, hogy hosszú üzenet is elférjen
     @Column(columnDefinition = "TEXT")
     private String message;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Hogy automatikusan beállítsa a dátumot mentéskor
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

@@ -27,8 +27,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         // Bárki számára elérhető oldalak:
-                        .requestMatchers("/", "/index", "/register", "/login", "/css/**", "/js/**", "/images/**", "/adatbazis", "/kapcsolat").permitAll()
-
+                        .requestMatchers("/", "/index", "/register", "/login", "/css/**", "/js/**", "/images/**", "/adatbazis", "/kapcsolat", "/diagram", "/api/**").permitAll()
                         // Csak ADMIN láthatja:
                         .requestMatchers("/crud/**", "/admin/**").hasRole("ADMIN")
 
